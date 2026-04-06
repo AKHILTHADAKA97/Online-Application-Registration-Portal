@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
-function Header({ isLoggedIn, onLogout }) {
+function Header({ isLoggedIn, onLogout, isAdmin }) {
   return (
     <header className="header">
       <div className="header-content">
@@ -16,6 +16,7 @@ function Header({ isLoggedIn, onLogout }) {
           ) : (
             <>
               <Link to="/dashboard" className="nav-link">Dashboard</Link>
+              {isAdmin && <Link to="/admin" className="nav-link btn-admin">🔧 Admin</Link>}
               <button onClick={onLogout} className="nav-link btn-logout">Logout</button>
             </>
           )}
