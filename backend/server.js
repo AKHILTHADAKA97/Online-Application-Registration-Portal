@@ -1,8 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+
+// Initialize Firebase
+const firebase = require('./config/firebase');
+const { useEmulator } = firebase;
 
 const app = express();
 
@@ -11,10 +14,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/registration-portal')
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('MongoDB connection error:', err));
+// Log Firebase status
+if (useEmulator) {
+  console.log('✅ Firebase Emulator Mode - Using local emulation');
+} else {
+  console.log('✅ Firebase Production Mode - Using real Firebase');
+}
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -22,7 +27,11 @@ app.use('/api/admin', require('./routes/admin'));
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ message: 'Server is running', timestamp: new Date() });
+  res.json({ 
+    message: 'Server is running', 
+    database: useEmulator ? 'Firebase Emulator' : 'Firebase Production',
+    timestamp: new Date() 
+  });
 });
 
 // 404 handler
@@ -40,4 +49,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`✅ Backend Ready - Visit http://localhost:${PORT}/health`);
 });

@@ -1,125 +1,148 @@
 const express = require('express');
-const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { authMiddleware, adminMiddleware } = require('../middleware/auth');
+const { auth } = require('../config/firebase');
+const FirebaseUserModel = require('../models/FirebaseUser');
+const { authMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Register new user
+// Register
 router.post('/register', async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, password, dateOfBirth, address, city, state, zipCode, education, experience } = req.body;
+    const { firstName, lastName, email, password, phone, dateOfBirth, education, experience } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
+    if (!email || !password || !firstName) {
+      return res.status(400).json({ success: false, message: 'Missing required fields' });
     }
 
-    // Hash password
-    const hashedPassword = await bcryptjs.hash(password, 10);
+    // Check if user exists
+    const existingUser = await FirebaseUserModel.findByEmail(email);
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
 
-    // Create new user
-    const newUser = new User({
+    // Create user with Firebase
+    const user = await FirebaseUserModel.create({
+      email,
+      password,
       firstName,
       lastName,
-      email,
       phone,
-      password: hashedPassword,
       dateOfBirth,
-      address,
-      city,
-      state,
-      zipCode,
       education,
-      experience,
-      profileData: {
-        bio: '',
-        skills: [],
-        certifications: [],
-        portfolio: '',
-        preferredJobTitle: '',
-        preferredLocation: '',
-        salaryExpectation: ''
-      }
+      experience
     });
 
-    await newUser.save();
-
-    // Generate JWT
-    const token = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Generate JWT token
+    const token = jwt.sign(
+      { uid: user.uid, email: user.email, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
     res.status(201).json({
-      message: 'Registration successful',
+      success: true,
+      message: 'User registered successfully',
       token,
-      user: {
-        id: newUser._id,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
-        email: newUser.email,
-        phone: newUser.phone
-      }
+      user
     });
   } catch (error) {
-    res.status(500).json({ message: 'Registration failed', error: error.message });
+    console.error('Registration error:', error);
+    if (error.code === 'auth/email-already-exists') {
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+    }
+    res.status(500).json({ success: false, message: 'Registration failed', error: error.message });
   }
 });
 
-// Login user
+// Login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email and password required' });
     }
 
-    const isPasswordValid = await bcryptjs.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    // Verify with Firebase
+    let firebaseUser;
+    try {
+      firebaseUser = await auth.getUserByEmail(email);
+    } catch (error) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+
+    // Get user profile
+    const userProfile = await FirebaseUserModel.findById(firebaseUser.uid);
+    if (!userProfile) {
+      return res.status(401).json({ success: false, message: 'User profile not found' });
     }
 
     // Update last login
-    user.lastLogin = new Date();
-    await user.save();
+    await FirebaseUserModel.update(firebaseUser.uid, {
+      lastLogin: new Date().toISOString()
+    });
 
-    const token = jwt.sign({ userId: user._id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    // Generate JWT token
+    const token = jwt.sign(
+      { uid: firebaseUser.uid, email: firebaseUser.email, isAdmin: userProfile.isAdmin },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
 
     res.json({
+      success: true,
       message: 'Login successful',
       token,
       user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        isAdmin: user.isAdmin
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        firstName: userProfile.firstName,
+        isAdmin: userProfile.isAdmin
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Login failed', error: error.message });
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, message: 'Login failed', error: error.message });
   }
 });
 
-// Get user profile
+// Get Profile
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
-    res.json(user);
+    const user = await FirebaseUserModel.findById(req.user.uid);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({ success: true, user });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching profile', error: error.message });
+    console.error('Profile error:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch profile' });
   }
 });
 
-// Update user profile
+// Update Profile
 router.put('/profile', authMiddleware, async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.user.userId, req.body, { new: true });
-    res.json(updatedUser);
+    const { firstName, lastName, phone, address, city, state, zipCode, education, experience, profileData } = req.body;
+    
+    const updates = {};
+    if (firstName) updates.firstName = firstName;
+    if (lastName) updates.lastName = lastName;
+    if (phone) updates.phone = phone;
+    if (address) updates.address = address;
+    if (city) updates.city = city;
+    if (state) updates.state = state;
+    if (zipCode) updates.zipCode = zipCode;
+    if (education) updates.education = education;
+    if (experience) updates.experience = experience;
+    if (profileData) updates.profileData = profileData;
+
+    const user = await FirebaseUserModel.update(req.user.uid, updates);
+    res.json({ success: true, message: 'Profile updated', user });
   } catch (error) {
-    res.status(500).json({ message: 'Error updating profile', error: error.message });
+    console.error('Update error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update profile' });
   }
 });
 

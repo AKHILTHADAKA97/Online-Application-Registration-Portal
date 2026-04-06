@@ -1,18 +1,21 @@
 # 📋 Online Application Registration Portal
 
-A complete full-stack web application for managing online job application registrations with smart password generation, user profile management, and an advanced admin dashboard.
+A complete full-stack web application for managing online job application registrations with smart password generation, user profile management, admin dashboard, **Firebase backend**, and **Docker support**.
 
 ## 🌟 Project Highlights
 
 **Complete Full-Stack Implementation:**
 - ✅ React frontend with responsive design
 - ✅ Express.js backend with RESTful API
-- ✅ MongoDB database integration
+- ✅ **Firebase Firestore database** (replaced MongoDB)
+- ✅ **Firebase Authentication**
 - ✅ JWT authentication & authorization
 - ✅ Admin dashboard with user management
 - ✅ Smart password generation
 - ✅ Email as username system
 - ✅ CSV export functionality
+- ✅ **Docker & Docker Compose** support
+- ✅ **Firebase Emulator** for local development
 
 ## 📸 Features
 
