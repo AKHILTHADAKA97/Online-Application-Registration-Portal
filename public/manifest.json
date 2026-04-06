@@ -1,0 +1,17 @@
+{
+  "name": "Online Application Registration Portal",
+  "short_name": "App Portal",
+  "description": "A modern React application for managing online applications and registrations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

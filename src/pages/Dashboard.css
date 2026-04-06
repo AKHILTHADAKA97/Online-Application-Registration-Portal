@@ -1,0 +1,712 @@
+.dashboard {
+  width: 100%;
+}
+
+.dashboard-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h2 {
+  font-size: 36px;
+  margin-bottom: 5px;
+}
+
+.dashboard-header p {
+  font-size: 15px;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.header-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Navigation Tabs */
+.dashboard-nav-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  background-color: white;
+  border: 2px solid #ecf0f1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #2c3e50;
+}
+
+.tab-btn:hover {
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.tab-btn.active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.user-info-card,
+.add-application-card,
+.applications-card,
+.stats-card,
+.recommendations-card,
+.settings-card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+}
+
+.user-info-card h3,
+.add-application-card h3,
+.applications-card h3,
+.stats-card h3,
+.recommendations-card h3,
+.settings-card h3 {
+  font-size: 22px;
+  color: #2c3e50;
+  margin: 0 0 20px 0;
+}
+
+.edit-profile-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s;
+}
+
+.edit-profile-btn:hover {
+  background-color: #229954;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.info-value {
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+.status-active {
+  background-color: #27ae60;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Profile Form */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.profile-form input,
+.profile-form textarea {
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Skills Section */
+.skills-section {
+  border-top: 1px solid #ecf0f1;
+  padding-top: 15px;
+}
+
+.skills-section label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 14px;
+}
+
+.skills-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.skills-input-group input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.add-skill-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.add-skill-btn:hover {
+  background-color: #2980b9;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  background-color: #3498db;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.remove-skill {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.remove-skill:hover {
+  transform: scale(1.2);
+}
+
+.save-profile-btn {
+  background-color: #27ae60;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+}
+
+.save-profile-btn:hover {
+  background-color: #229954;
+}
+
+/* Application Form and List */
+.app-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.app-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.app-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-form label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.app-form input,
+.app-form select {
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+.app-form input:focus,
+.app-form select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.add-btn {
+  background-color: #27ae60;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+}
+
+.add-btn:hover {
+  background-color: #229954;
+}
+
+.no-applications {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 40px 20px;
+  font-size: 16px;
+}
+
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.application-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ecf0f1;
+  border-radius: 6px;
+  transition: box-shadow 0.3s;
+  background-color: #f9f9f9;
+}
+
+.application-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-info {
+  flex: 1;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.app-header h4 {
+  font-size: 18px;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.status-badge {
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.company-name {
+  color: #3498db;
+  font-size: 15px;
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+.app-date {
+  color: #7f8c8d;
+  font-size: 13px;
+  margin: 5px 0;
+}
+
+.app-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-select {
+  padding: 8px 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.stat {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Recommendations */
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.recommendation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f8ff;
+  border-left: 4px solid #3498db;
+  border-radius: 4px;
+}
+
+.rec-content h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.rec-content p {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+}
+
+.recommended-positions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rec-pos {
+  color: #3498db;
+  font-size: 13px;
+  padding-left: 10px;
+}
+
+.apply-rec-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.3s;
+}
+
+.apply-rec-btn:hover {
+  background-color: #2980b9;
+}
+
+.no-recommendations {
+  text-align: center;
+  color: #7f8c8d;
+  padding: 30px;
+}
+
+/* Settings */
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ecf0f1;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.setting-item.danger {
+  border-color: #e74c3c;
+  background-color: #fadbd8;
+}
+
+.setting-content h4 {
+  margin: 0 0 4px 0;
+  color: #2c3e50;
+}
+
+.setting-content p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+.toggle-switch {
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.change-password-btn,
+.delete-account-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.change-password-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.change-password-btn:hover {
+  background-color: #e67e22;
+}
+
+.delete-account-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-account-btn:hover {
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 25px;
+  }
+
+  .dashboard-header h2 {
+    font-size: 24px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .header-stats {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .user-info-card,
+  .add-application-card,
+  .applications-card,
+  .stats-card,
+  .recommendations-card,
+  .settings-card {
+    padding: 20px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-nav-tabs {
+    gap: 8px;
+  }
+
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .application-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .app-actions {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .app-actions select,
+  .app-actions button {
+    flex: 1;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recommendation-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .apply-rec-btn {
+    width: 100%;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .change-password-btn,
+  .delete-account-btn {
+    width: 100%;
+  }
+}
